@@ -1,9 +1,18 @@
 <html>
     <body>
-        <h1> Time is Money my dood </h1>
+        <h1>DON'T WASTE FOOD MY DOOD</h1>
             <form method="post" action="/">
                 <p>Enter some ingredients <input type = "text" name = "INPUT" /></p>
+            </form> 
+
+            <form class="cuisine" method="POST" action="/">
+                <select class="browser-default custom-select" name="cuisine" id="cuisine" method="POST" action="/">
+                    <option disabled selected> Choose a cuisine </option>
+                    {% for cuisine in cuisines %}
+                    <option value={{cuisine}}>{{cuisine}}</option>
+                    {% endfor %}
+                </select>
+                <input class="btn" type="submit" value="submit">
             </form>
-            <p> Your ingredients {{ food }} are found in {{ number }} recipes! </p>
     </body>
 </html>

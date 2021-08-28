@@ -3,16 +3,7 @@ This will be the file that runs our web server for this project
 """
 
 from flask import Flask, render_template, request
-import csv
-
-f = open("recipes.csv", "r")
-
-lines = csv.reader(f)
-
-recipes = []
-
-for line in lines:
-    recipes.append(line)
+from reader import find_potential, details
 
 app = Flask(__name__)
 
@@ -23,17 +14,30 @@ def index():
 
 @app.route('/', methods=['POST'])
 def my_form_post():
-    words = request.form['INPUT'].upper().split(" ")
+    global recipe_details
+    if request.method == "POST":
+        if request.form.get("INPUT"):
+            words = request.form['INPUT'].lower().split(" ")
+            
+            potential = find_potential(words)
+            recipe_details = details(potential)
+        
+            cuisines = []
+            for recipe in recipe_details:
+                if recipe[3] not in cuisines:
+                    cuisines.append(recipe[3])
     
-    counter = 0
-    for recipe in recipes:
-        wordcheck = True
-        for word in words:
-            if word not in recipe[1]:
-                wordcheck = False
-        if wordcheck:
-            counter += 1
-    return render_template('index.html', food = words, number = counter)
+            return render_template('index.html', cuisines = cuisines)
+
+        if request.form["cuisine"]:
+            cuisine_details = []
+            for recipe in recipe_details:
+                if recipe[3].split()[0] == request.form["cuisine"]:
+                    cuisine_details.append(recipe)
+            return render_template('display.html', details = cuisine_details)
+
+    else:
+        return render_template('index.html')
     
 if __name__ == "__main__":
     app.run(debug=True)
