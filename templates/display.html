@@ -1,3 +1,18 @@
-{% for d in details%}
-<p> Recipe: {{ d[1] }} found at {{ d[2] }} </p>
-{% endfor %}
+<html>
+    <head>
+        <style>
+            h1 {text-align: center;}
+            p {text-align: center;}
+            form {text-align: center;}
+        </style>
+    </head>
+    <body style="background-color:#2fd7b4;">
+        <h1><span style="font-family:Georgia,serif"><strong>Here are the recipes we found for you:</strong></span></h1>
+
+        {% for d in details%}
+        <p> <strong>{{ d[1] }}</strong>, which can be found at {{ d[2] }} </p>
+        {% endfor %}
+        
+        <p><span style="font-size:20px"><span style="font-family:Georgia,serif"><u><a href="/">GO BACK</a></u></span></span></p>
+    </body>
+</html>
